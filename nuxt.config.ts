@@ -7,14 +7,13 @@ export default defineNuxtConfig({
       link: [
         {
           rel: "apple-touch-icon",
-          href: "/pwa-512x512.png",
+          href: "https://mhpb-nine.vercel.app/pwa-512x512.png",
         },
       ],
       meta: [
         {
           name: "viewport",
-          content:
-            "width=device-width, initial-scale=1, maximum-scale=1",
+          content: "width=device-width, initial-scale=1, maximum-scale=1",
         },
       ],
     },
