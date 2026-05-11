@@ -44,11 +44,15 @@ useHead({
 
 <style>
 
+html {
+  touch-action: manipulation;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
   font-family: Helvetica, Arial, sans-serif;
-  padding-top: 0.5rem;
+  padding: 2rem;
 }
 
 body.dark {
@@ -68,7 +72,7 @@ body.yellow {
 
 
 .advice__title {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: bold;
   padding-top: 2rem;
   border-top: 4px solid currentColor;
