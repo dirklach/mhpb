@@ -1,6 +1,111 @@
+<script setup lang="ts">
+import titlesData from '~/data/titles.json'
+
+const themes = ['dark', 'light', 'yellow'] as const
+type Theme = (typeof themes)[number]
+
+const titles = titlesData.titles
+const currentTitle = ref(titles[0] ?? '')
+const theme = ref<Theme>('dark')
+
+function pickRandom<T>(items: readonly T[]): T {
+  return items[Math.floor(Math.random() * items.length)]!
+}
+
+function nextAdvice() {
+  currentTitle.value = pickRandom(titles)
+  theme.value = pickRandom(themes)
+}
+
+useHead({
+  bodyAttrs: {
+    class: () => theme.value,
+  },
+})
+</script>
+
 <template>
-  <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+  <div class="advice">
+    <div class="advice__title">
+      {{ currentTitle }}
+    </div>
+  </div>
+  <div class="next-wrapper">
+    <button
+      type="button"
+      class="next-button"
+      aria-label="Nächster Tipp"
+      @click="nextAdvice"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Mage Icons by MageIcons - https://github.com/Mage-Icons/mage-icons/blob/main/License.txt --><path fill="currentColor" d="M21.738 16.13a1 1 0 0 1-.19.61a1 1 0 0 1-.52.38l-1.71.57a3.6 3.6 0 0 0-1.4.86a3.5 3.5 0 0 0-.86 1.4l-.6 1.7a1 1 0 0 1-.36.51a1.1 1.1 0 0 1-.62.19a1 1 0 0 1-1-.71l-.57-1.71a3.5 3.5 0 0 0-.86-1.4a3.8 3.8 0 0 0-1.4-.87l-1.71-.56a1.1 1.1 0 0 1-.51-.37a1.1 1.1 0 0 1-.21-.62a1 1 0 0 1 .71-1l1.72-.57a3.54 3.54 0 0 0 2.28-2.28l.57-1.69a1 1 0 0 1 .95-.73c.215 0 .426.059.61.17c.182.125.322.303.4.51l.58 1.74a3.54 3.54 0 0 0 2.28 2.28l1.7.6a1 1 0 0 1 .51.38a1 1 0 0 1 .21.61m-9.999-6.36a1 1 0 0 1-.17.55a1 1 0 0 1-.47.35l-1.26.42c-.353.122-.673.32-.94.58a2.5 2.5 0 0 0-.58.94l-.43 1.24a.9.9 0 0 1-.35.47a1 1 0 0 1-.56.18a1 1 0 0 1-.57-.19a1 1 0 0 1-.34-.47l-.41-1.25a2.44 2.44 0 0 0-.58-.93a2.2 2.2 0 0 0-.93-.58l-1.25-.42a.93.93 0 0 1-.48-.35a1 1 0 0 1 .48-1.47l1.25-.41a2.49 2.49 0 0 0 1.53-1.53l.41-1.23a1 1 0 0 1 .32-.47a1 1 0 0 1 .55-.2a1 1 0 0 1 .57.16a1 1 0 0 1 .37.46l.42 1.28a2.49 2.49 0 0 0 1.53 1.53l1.25.43a.92.92 0 0 1 .46.35a.94.94 0 0 1 .18.56m5.789-5.36a1 1 0 0 1-.17.51a.82.82 0 0 1-.42.3l-.62.21a.84.84 0 0 0-.52.52l-.22.63a.93.93 0 0 1-.29.39a.82.82 0 0 1-.52.18a1.1 1.1 0 0 1-.49-.15a.9.9 0 0 1-.32-.44l-.21-.62a.7.7 0 0 0-.2-.32a.76.76 0 0 0-.32-.2l-.62-.2a1 1 0 0 1-.42-.31a.9.9 0 0 1-.16-.51a.94.94 0 0 1 .17-.51a.9.9 0 0 1 .42-.3l.61-.2a.9.9 0 0 0 .33-.2a.9.9 0 0 0 .2-.33l.21-.62c.06-.155.155-.292.28-.4a1 1 0 0 1 .49-.19a.94.94 0 0 1 .53.16a1 1 0 0 1 .32.41l.21.64a.9.9 0 0 0 .2.33a1 1 0 0 0 .32.2l.63.21a1 1 0 0 1 .41.3a.87.87 0 0 1 .17.51"/></svg>
+    </button>
   </div>
 </template>
+
+<style>
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Helvetica, Arial, sans-serif;
+  padding-top: 0.5rem;
+}
+
+body.dark {
+  background: #000;
+  color: #fff;
+}
+
+body.light {
+  background: #fff;
+  color: #000;
+}
+
+body.yellow {
+  background: #ffde09;
+  color: #000;
+}
+
+
+.advice__title {
+  font-size: 3rem;
+  font-weight: bold;
+  padding-top: 2rem;
+  border-top: 4px solid currentColor;
+}
+
+.next-wrapper {
+  position: fixed;
+  bottom: 2rem;
+  right: auto;
+  left: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.next-button {
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  color: #000;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 4rem;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+body.light .next-button {
+  border-color: #000;
+}
+</style>
