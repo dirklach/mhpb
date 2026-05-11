@@ -93,6 +93,7 @@ body.yellow {
   padding-top: 2rem;
   border-top: 4px solid currentColor;
   word-break: break-word;
+  line-height: 1.05;
 }
 
 .advice__number {
