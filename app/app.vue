@@ -72,7 +72,7 @@ body.yellow {
 
 
 .advice__title {
-  font-size: 4rem;
+  font-size: 2rem;
   font-weight: bold;
   padding-top: 2rem;
   border-top: 4px solid currentColor;
