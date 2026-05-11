@@ -4,6 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
+      link: [
+        {
+          rel: "apple-touch-icon",
+          href: "/pwa-512x512.png",
+        },
+      ],
       meta: [
         {
           name: "viewport",
