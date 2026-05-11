@@ -4,16 +4,25 @@ import titlesData from '~/data/titles.json'
 const themes = ['dark', 'light', 'yellow'] as const
 type Theme = (typeof themes)[number]
 
+type TitleEntry = (typeof titlesData.titles)[number]
+
 const titles = titlesData.titles
-const currentTitle = ref(titles[0] ?? '')
-const theme = ref<Theme>('dark')
 
 function pickRandom<T>(items: readonly T[]): T {
   return items[Math.floor(Math.random() * items.length)]!
 }
 
+const currentAdvice = useState<TitleEntry>('mhpb-advice', () =>
+  titles.length ? pickRandom(titles) : { id: 0, text: '' },
+)
+
+const currentTitle = computed(() => currentAdvice.value.text)
+const currentNumber = computed(() => currentAdvice.value.id)
+
+const theme = ref<Theme>('dark')
+
 function nextAdvice() {
-  currentTitle.value = pickRandom(titles)
+  currentAdvice.value = pickRandom(titles)
   theme.value = pickRandom(themes)
 }
 
@@ -26,9 +35,14 @@ useHead({
 
 <template>
   <div class="advice">
+
+    <div class="advice__number">
+      {{ currentNumber }}
+    </div>
     <div class="advice__title">
       {{ currentTitle }}
     </div>
+
   </div>
   <div class="next-wrapper">
     <button
@@ -52,7 +66,6 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: Helvetica, Arial, sans-serif;
-  padding: 2rem;
 }
 
 body.dark {
@@ -70,12 +83,23 @@ body.yellow {
   color: #000;
 }
 
+.advice {
+  padding: 1rem;
+}
 
 .advice__title {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
   padding-top: 2rem;
   border-top: 4px solid currentColor;
+  word-break: break-word;
+}
+
+.advice__number {
+  font-size:10em;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .next-wrapper {
